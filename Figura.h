@@ -57,7 +57,6 @@ public:
     void inicialitza(const TipusFigura& tipus, int x, int y);
     void inicialitzaForma(TipusFigura tipus);
     void buidarFormaFigura();
-    void moureAdalt();
     void moureAbaix();
     void moureLateral(int dirX);
     void girarFigura(DireccioGir direccio);
