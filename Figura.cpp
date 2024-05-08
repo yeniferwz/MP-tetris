@@ -1,168 +1,91 @@
 #include "Figura.h"
+#include <iostream>
 
-Figura::Figura()
-{
-	m_x = 0;
-	m_y = 0;
-	m_tipusFigura = NO_FIGURA;
-	m_colorFigura = NO_COLOR;
-	for(int i = 0; i < MAX_AMPLADA; i++){
-		for(int j = 0; j < MAX_ALCADA; j++){
-			m_forma[i][j] = NO_COLOR;
-		}
-	}
-}
+using namespace std;
 
-void Figura::buidarFormaFigura()
-{
-	for (int i = 0; i < m_alcada; i++)
-		for (int j = 0; j < m_amplada; j++)
-			m_forma[i][j] = 0;
-}
+Figura::Figura() : m_tipus(NO_FIGURA), m_color(NO_COLOR), m_x(0), m_y(0), m_gir(0) {}
 
-void Figura::getForma(int forma[MAX_ALCADA][MAX_AMPLADA]) const
-{
-	for (int i = 0; i < m_alcada; i++)
-		for (int j = 0; j < m_amplada; j++)
-			forma[i][j] = m_forma[i][j];
+
+void Figura::inicialitzaFigura(TipusFigura tipusFigura, ColorFigura colorFigura, int posX, int posY, int girInicial) {
+    m_tipus = tipusFigura;
+    m_color = colorFigura;
+    m_x = posX;
+    m_y = posY;
+    m_gir = girInicial;
 }
 
 
-void Figura::inicialitzaForma(TipusFigura tipus)
-{
-	m_tipusFigura = tipus;
-	switch (tipus)
-	{
-	case FIGURA_J:
-		m_alcada = 3, m_amplada = 3;
-		buidarFormaFigura();
-		m_forma[0][0] = 1;
-		m_forma[1][0] = 1;
-		m_forma[1][1] = 1;
-		m_forma[1][2] = 1;
-		m_colorFigura = COLOR_BLAUFOSC;
-		break;
-	case FIGURA_L:
-		m_alcada = 3, m_amplada = 3;
-		buidarFormaFigura();
-		m_forma[0][2] = 1;
-		m_forma[1][0] = 1;
-		m_forma[1][1] = 1;
-		m_forma[1][2] = 1;
-		m_colorFigura = COLOR_TARONJA;
-		break;
-	case FIGURA_T:
-		m_alcada = 3, m_amplada = 3;
-		buidarFormaFigura();
-		m_forma[0][1] = 1;
-		m_forma[1][0] = 1;
-		m_forma[1][1] = 1;
-		m_forma[1][2] = 1;
-		m_colorFigura = COLOR_MAGENTA;
-		break;
-	case FIGURA_S:
-		m_alcada = 3, m_amplada = 3;
-		buidarFormaFigura();
-		m_forma[0][1] = 1;
-		m_forma[0][2] = 1;
-		m_forma[1][0] = 1;
-		m_forma[1][1] = 1;
-		m_colorFigura = COLOR_VERD;
-		break;
-	case FIGURA_Z:
-		m_alcada = 3, m_amplada = 3;
-		buidarFormaFigura();
-		m_forma[0][0] = 1;
-		m_forma[0][1] = 1;
-		m_forma[1][1] = 1;
-		m_forma[1][2] = 1;
-		m_colorFigura = COLOR_VERMELL;
-		break;
-	case FIGURA_I:
-		m_alcada = 4, m_amplada = 4;
-		buidarFormaFigura();
-		m_forma[1][0] = 1;
-		m_forma[1][1] = 1;
-		m_forma[1][2] = 1;
-		m_forma[1][3] = 1;
-		m_colorFigura = COLOR_BLAUCEL;
-		break;
-	case FIGURA_O:
-		m_alcada = 2, m_amplada = 2;
-		buidarFormaFigura();
-		m_forma[0][0] = 1;
-		m_forma[0][1] = 1;
-		m_forma[1][0] = 1;
-		m_forma[1][1] = 1;
-		m_colorFigura = COLOR_GROC;
-		break;
-	}
+void Figura::girarFigura(bool horari) {
+    if (horari) {
+        m_gir = (m_gir + 1) % 4; // Suponiendo que hay 4 posiciones de giro (0-3)
+    }
+    else {
+        m_gir = (m_gir - 1 + 4) % 4; // Asegura que el valor de 'gir' sigui positivo
+    }
 }
 
-void Figura::inicialitza(const TipusFigura& tipus, int x, int y)
-{
-	m_x = x;
-	m_y = y;
-	m_tipusFigura = tipus;
-	inicialitzaForma(tipus);
+
+void Figura::moure(int dx, int dy) {
+    m_x += dx;
+    m_y += dy;
 }
 
-void Figura::transposarMatriu()
-{
-	int matriuT[MAX_ALCADA][MAX_AMPLADA];
-	//construeix la matriu transposada
-	for (int i = 0; i < MAX_ALCADA; i++) 
-	{
-		for (int j = 0; j < MAX_AMPLADA; j++)
-		{
-			matriuT[j][i] = m_forma[i][j];
-		}
-	}
+// getters para obtener las figuras
+int Figura::getX() const {
+    return m_x;
 }
 
-void Figura::girarFigura(DireccioGir direccio)
-{
-	int matriuT[MAX_ALCADA][MAX_AMPLADA];
-	//construeix la matriu transposada
-	for (int i = 0; i < MAX_ALCADA; i++) 
-	{
-		for (int j = 0; j < MAX_AMPLADA; j++)
-		{
-			matriuT[j][i] = m_forma[i][j];
-		}
-	}
-
-	if (direccio == GIR_HORARI) {
-		//invertir columnes
-		for (int i = 0; i < MAX_ALCADA; i++)
-		{
-			for (int j = 0; j < MAX_AMPLADA / 2; j++)
-			{
-				int aux = matriuT[i][j];
-				matriuT[i][j] = matriuT[i][MAX_AMPLADA - 1 - j];
-				matriuT[i][MAX_AMPLADA - 1 - j] = aux;
-			}
-		}
-	}
-	else if (direccio == GIR_ANTI_HORARI) { //invertir files
-		for (int i = 0; i < MAX_ALCADA / 2; i++)
-		{
-			for (int j = 0; j < MAX_AMPLADA; j++)
-			{
-				int aux = matriuT[i][j];
-				matriuT[i][j] = matriuT[MAX_ALCADA - 1 - i][j];
-				matriuT[MAX_ALCADA - 1 - i][j] = aux;
-			}
-		}
-	}
-
-	for(int i = 0; i < MAX_ALCADA; i++){
-		for(int j = 0; j < MAX_AMPLADA; j++){
-			m_forma[i][j] = matriuT[i][j];
-		}
-	}
+int Figura::getY() const {
+    return m_y;
 }
 
-void Figura::moureAbaix() { m_y++; }
+int Figura::getGir() const {
+    return m_gir;
+}
 
-void Figura::moureLateral(int dirX) { m_y += dirX; }
+TipusFigura Figura::getTipus() const {
+    return m_tipus;
+}
+
+ColorFigura Figura::getColorFigura() const {
+    return m_color;
+}
+
+//1r indice: array tridimensional, 2n indice: 
+int Figura::getOffsetX(int gir, int bloque) const {
+    static const int desplazamientos[4][4][2] = {
+        {{0, 0}, {1, 0}, {0, 1}, {1, 1}}, // O 0
+        {{0, 0}, {-1, 0}, {0, 1}, {-1, 1}}, // O 1
+        {{0, 0}, {1, 0}, {0, -1}, {1, -1}}, // O 2
+        {{0, 0}, {-1, 0}, {0, -1}, {-1, -1}} // O 3
+    };
+    // gir y bloque esta dins de los limites
+    return desplazamientos[gir % 4][bloque % 4][0];
+}
+
+int Figura::getOffsetY(int gir, int bloque) const {
+    static const int desplazamientos[4][4][2] = {
+        {{0, 0}, {1, 0}, {0, 1}, {1, 1}}, // Orientación 0
+        {{0, 0}, {-1, 0}, {0, 1}, {-1, 1}}, // Orientación 1
+        {{0, 0}, {1, 0}, {0, -1}, {1, -1}}, // Orientación 2
+        {{0, 0}, {-1, 0}, {0, -1}, {-1, -1}} // Orientación 3
+    };
+    return desplazamientos[gir % 4][bloque % 4][1];
+}
+
+ifstream& operator>>(ifstream& input, Figura& figura)
+{
+    int tipus, fila, columna, gir;
+
+    input >> tipus >> fila >> columna >> gir;
+    TipusFigura tipusFigura = static_cast<TipusFigura>(tipus);
+    figura.inicialitzaFigura(static_cast<TipusFigura>(tipusFigura),columna, fila, gir);
+    return input;
+}
+
+ostream& operator<<(ostream& os, const Figura& figura)
+{
+    os << "Tipus: " << figura.getTipus() << " color: " << figura.getColorFigura() << " x: " << figura.getX() << " y: " << figura.getY() << endl;
+    os << "gir: " << figura.getGir() << endl;
+    return os;
+}
