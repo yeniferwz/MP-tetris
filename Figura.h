@@ -2,8 +2,15 @@
 #ifndef FIGURA_H
 #define FIGURA_H
 
-typedef enum
-{
+#include <fstream>
+#include <iostream>
+using namespace std;
+
+enum DireccioGir {
+    GIR_HORARI,
+    GIR_ANTI_HORARI
+};
+typedef enum {
     COLOR_NEGRE = 0,
     COLOR_GROC,
     COLOR_BLAUCEL,
@@ -15,9 +22,7 @@ typedef enum
     NO_COLOR
 } ColorFigura;
 
-
-typedef enum
-{
+typedef enum {
     NO_FIGURA = 0,
     FIGURA_O,
     FIGURA_I,
@@ -25,52 +30,31 @@ typedef enum
     FIGURA_L,
     FIGURA_J,
     FIGURA_Z,
-    FIGURA_S,
+    FIGURA_S
 } TipusFigura;
 
-const int MAX_ALCADA = 4;
-const int MAX_AMPLADA = 4;
-
-typedef enum
-{
-    GIR_HORARI = 0,
-    GIR_ANTI_HORARI
-} DireccioGir;
-
-class Figura
-{
-public:
-    //constructor i destructor
-    Figura();//constructor per defecte
-    //~Figura();
-
-    //getters i setters
-    TipusFigura getTipus() const { return m_tipusFigura; }
-    ColorFigura getColor() const { return m_colorFigura; }
-    int getX() const {return m_x;}
-    int getY() const {return m_y;}
-    int getAlcada() const { return m_alcada; }
-    int getAmplada() const { return m_amplada; }
-    void getForma(int forma[MAX_ALCADA][MAX_AMPLADA]) const;
-
-    //metodes
-    void inicialitza(const TipusFigura& tipus, int x, int y);
-    void inicialitzaForma(TipusFigura tipus);
-    void buidarFormaFigura();
-    void moureAbaix();
-    void moureLateral(int dirX);
-    void girarFigura(DireccioGir direccio);
-    void transposarMatriu();
-
+class Figura {
 private:
-    TipusFigura m_tipusFigura;
-    ColorFigura m_colorFigura;
-    int m_x; //files
-    int m_y; //columnes
-    int m_alcada;
-    int m_amplada;
-    int m_forma[MAX_ALCADA][MAX_AMPLADA]; //la matriu que representa la forma de la figura
+    TipusFigura m_tipus;
+    ColorFigura m_color;
+    int m_x, m_y; // Posicion actual en el tablero
+    int m_gir; // Estat de giro actual de la figura
+public:
+    int getOffsetX(int gir, int bloque) const;
+    int getOffsetY(int gir, int bloque) const;
+    Figura();
+    void inicialitzaFigura(TipusFigura tipusFigura, ColorFigura color, int x, int y, int gir);
+    void girarFigura(bool horari);
+    void moure(int dx, int dy);
+    int getX() const;
+    int getY() const;
+    int getGir() const;
+    ColorFigura getColorFigura() const;
+    TipusFigura getTipus() const;
+
 };
 
+ifstream& operator>>(ifstream& input, Figura& figura);
+ostream& operator<<(ostream& os, const Figura& figura);
 
-#endif // FIGURA_H
+#endif
