@@ -5,16 +5,16 @@
 #include "Figura.h"
 
 class Joc {
-private:
-    Tauler m_tauler;
-    Figura m_figuraActual;
 public:
     Joc();
     void inicialitza(const string& nomFitxer);
-    bool mouFigura(int dx);
+    bool mouFigura(int dirY);
     int baixaFigura();
-    bool giraFigura(DireccioGir direccio);
+    bool giraFigura(const DireccioGir direccio);
     void escriuTauler(const string& nomFitxer);
+private:
+    Tauler m_tauler;
+    Figura m_figuraActual;
 };
 
 #endif
