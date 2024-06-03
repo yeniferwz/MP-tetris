@@ -3,6 +3,7 @@
 
 #include <fstream>
 #include <iostream>
+
 using namespace std;
 
 enum DireccioGir {

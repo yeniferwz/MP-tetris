@@ -3,6 +3,7 @@
 
 #include "Tauler.h"
 #include "Figura.h"
+#include "GraphicManager.h"
 
 class Joc {
 public:

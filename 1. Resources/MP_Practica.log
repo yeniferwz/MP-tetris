@@ -1,1 +1,22 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.CppBuild.targets(439,5): error MSB8020: The build tools for v143 (Platform Toolset = 'v143') cannot be found. To build using the v143 build tools, please install v143 build tools.  Alternatively, you may upgrade to the current Visual Studio tools by selecting the Project menu or right-click the solution, and then selecting "Retarget solution".
+﻿  debug.cpp
+  image_png.cpp
+  keyboard.cpp
+  mouse.cpp
+  NFont.cpp
+  SDL_FontCache.cpp
+C:\Users\Yenifer\Desktop\TETRIS_V3\intro_llibreria_grafica_estudiants\0. C++ Code\Graphic Lib\NFont\SDL_FontCache.cpp(205,25): warning C4309: '=': truncation of constant value
+C:\Users\Yenifer\Desktop\TETRIS_V3\intro_llibreria_grafica_estudiants\0. C++ Code\Graphic Lib\NFont\SDL_FontCache.cpp(216,25): warning C4309: '=': truncation of constant value
+  sound.cpp
+  sprites.cpp
+  stb_vorbis.cpp
+  video.cpp
+  Figura.cpp
+  Joc.cpp
+  Partida.cpp
+  GraphicManager.cpp
+C:\Users\Yenifer\Desktop\TETRIS_V3\intro_llibreria_grafica_estudiants\0. C++ Code\Logic Game\GraphicManager.cpp(35,37): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+C:\Users\Yenifer\Desktop\TETRIS_V3\intro_llibreria_grafica_estudiants\0. C++ Code\Logic Game\GraphicManager.cpp(35,31): warning C4244: 'argument': conversion from 'float' to 'int', possible loss of data
+  main.cpp
+  Tauler.cpp
+  Generating Code...
+  MP_Practica.vcxproj -> C:\Users\Yenifer\Desktop\TETRIS_V3\intro_llibreria_grafica_estudiants\2. Platforms\0. Windows Desktop\Program\MP_Practica.exe
