@@ -44,14 +44,40 @@ bool Joc::mouFigura(int colMoure) {
     return potMoure;
 }
 
-//funcio que baixa la figura una posicio si el moviment es correcte
+//funcio que mou la figura lateralment amb la tecla
+bool Joc::teclaMouFigura(int col) {
+    bool potMoure = false;
+    int dx = (col > 0) ? 1 : -1;
+
+    if (m_tauler.esMovimentValid(m_figuraActual, dx, 0)) { //comprovar moviment
+        m_figuraActual.moure(dx, 0);
+        potMoure = true;
+    }
+    return potMoure;
+}
+
+//funcio que baixa la figura una posicio si el moviment es correcte, retorna les files completades
 int Joc::baixaFigura() {
-    int filesEliminades = 0;
+    int filesCompletades = 0;
 
     if (m_tauler.esMovimentValid(m_figuraActual,1,0))
         m_figuraActual.moure(1, 0); //augmentant la Y
 
-    return filesEliminades;
+    filesCompletades = m_tauler.eliminaFilesCompletes();
+
+    return filesCompletades;
+}
+
+//funcio que baixa la figura automaticament una posicio si el moviment es correcte, retorna les files completades
+int Joc::baixaFiguraAutomatic() {
+    int filesCompletades = -1;
+
+    if (m_tauler.movimentValidGrafica(m_figuraActual, 0, 1)) 
+        m_figuraActual.moure(0,1);
+
+    filesCompletades = m_tauler.eliminaFilesCompletes();
+
+    return filesCompletades;
 }
 
 //funcio que gira a figura a partir de la orientacio que pasa per parametres
@@ -80,4 +106,44 @@ void Joc::escriuTauler(const string& nomFitxer) {
         }
     }
     fitxer.close();
+}
+
+void Joc::dibuixa()
+{
+    m_tauler.dibuixaTauler();
+    m_figuraActual.dibuixaFigura();
+}
+
+//funcio que genera una nova figura amb tipus i gir aleatori que es posa en la part superior del tauler
+bool Joc::inicialitzaNovaFigura()
+{
+    bool quedaEspaiPerNovaFigura = false;
+    TipusFigura tipusFigura = static_cast<TipusFigura>((rand() % N_TIPUS_FIGURES) + 1);
+    int gir = (rand() % 4);
+    int colMaxima = N_COL_TAULER - (tipusFigura == FIGURA_I ? 2 : (tipusFigura == FIGURA_O ? 1 : 2));
+    int columna = rand() % colMaxima;
+    int fila = 1;
+
+    //fila per moure seria 1 ja que sha a la part mes superior del tauler
+
+    for (int i = 0; i < gir; i++) {
+        m_figuraActual.girarFigura(GIR_HORARI);
+    }
+
+    m_figuraActual.inicialitzaFigura(static_cast<TipusFigura>(tipusFigura), fila, columna, static_cast<Gir>(gir));
+    if (m_tauler.movimentValidGrafica(m_figuraActual, columna, 1))
+        quedaEspaiPerNovaFigura = true;
+
+    return quedaEspaiPerNovaFigura;
+}
+
+int Joc::baixaFiguraCompletament()
+{
+    int filesCompletades;
+    do {
+        filesCompletades = baixaFigura();
+    } while (filesCompletades == 0);
+
+    //util per afegir les puntuacions
+    return filesCompletades;
 }

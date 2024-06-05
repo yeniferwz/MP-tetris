@@ -54,6 +54,25 @@ bool Tauler::esMovimentValid(const Figura& figura, int colMoure, int filaMoure) 
     return movCorrecte;
 }
 
+bool Tauler::movimentValidGrafica(const Figura& figura, int colMoure, int filaMoure) const
+{
+    Figura figAux = figura;
+    figAux.moure(colMoure, filaMoure);
+
+    for (int i = 0; i < figAux.getAlcada(); i++) {
+        for (int j = 0; j < figAux.getAlcada(); j++) {
+            if (figAux.getColorFigura(i, j) != COLOR_NEGRE) {
+                int col = figAux.getX() + j;
+                int fila = figAux.getY() + i;
+                if (col < 0 || col >= MAX_COL || fila < 0 || fila >= MAX_FILA || m_tauler[fila][col] != COLOR_NEGRE) {
+                    return false; // Fuera de l�mites o colisi�n
+                }
+            }
+        }
+    }
+    return true;
+}
+
 //funcio que verifica quan es gira la figura, que no sobrepassi del tauler ni provoqui col.lisions
 bool Tauler::esGirValid(const Figura& figura, DireccioGir dir) const {
     bool potGirar = true;
@@ -130,38 +149,38 @@ int Tauler::eliminaFilesCompletes() {
     return filesEliminades;
 }
 
-/*
-ifstream& operator>>(ifstream& input, Tauler& tauler)
+void Tauler::dibuixaTauler() const
 {
-    int color;
-    ColorFigura colorFigura;
+    GraphicManager::getInstance()->drawSprite(GRAFIC_TAULER, POS_X_TAULER, POS_Y_TAULER, false);
+
+    /*
     for (int i = 0; i < MAX_FILA; i++) {
         for (int j = 0; j < MAX_COL; j++) {
-            input >> color;
-            colorFigura = static_cast<ColorFigura>(color);
-            tauler.setValor(i, j, colorFigura);
+            if (m_tauler[i][j+1] != COLOR_NEGRE) {
+                switch (m_tauler[i][j+1]){
+                case COLOR_GROC:
+                    GraphicManager::getInstance()->drawSprite(GRAFIC_QUADRAT_GROC, POS_X_TAULER + ((j + 1) * MIDA_QUADRAT), POS_Y_TAULER + (i * MIDA_QUADRAT), false); 
+                    break;
+                case COLOR_BLAUCEL:
+                    GraphicManager::getInstance()->drawSprite(GRAFIC_QUADRAT_BLAUCEL, POS_X_TAULER + ((j + 1) * MIDA_QUADRAT), POS_Y_TAULER + (i * MIDA_QUADRAT), false); 
+                    break;
+                case COLOR_MAGENTA:
+                    GraphicManager::getInstance()->drawSprite(GRAFIC_QUADRAT_MAGENTA, POS_X_TAULER + ((j + 1) * MIDA_QUADRAT), POS_Y_TAULER + (i * MIDA_QUADRAT), false);
+                    break;
+                case COLOR_TARONJA:
+                    GraphicManager::getInstance()->drawSprite(GRAFIC_QUADRAT_TARONJA, POS_X_TAULER + ((j + 1) * MIDA_QUADRAT), POS_Y_TAULER + (i * MIDA_QUADRAT), false);
+                    break;
+                case COLOR_BLAUFOSC:
+                    GraphicManager::getInstance()->drawSprite(GRAFIC_QUADRAT_BLAUFOSC, POS_X_TAULER + ((j + 1) * MIDA_QUADRAT), POS_Y_TAULER + (i * MIDA_QUADRAT), false);
+                    break;
+                case COLOR_VERMELL:
+                    GraphicManager::getInstance()->drawSprite(GRAFIC_QUADRAT_VERMELL, POS_X_TAULER + ((j + 1) * MIDA_QUADRAT), POS_Y_TAULER + (i * MIDA_QUADRAT), false);
+                    break;
+                case COLOR_VERD:
+                    GraphicManager::getInstance()->drawSprite(GRAFIC_QUADRAT_VERD, POS_X_TAULER + ((j + 1) * MIDA_QUADRAT), POS_Y_TAULER + (i * MIDA_QUADRAT), false);
+                    break;
+                }
+            }
         }
-    }
-    return input;
-}
-
-ofstream& operator<<(ofstream& output, const Tauler tauler)
-{
-    for (int i = 0; i < MAX_FILA; i++) {
-        for (int j = 0; j < MAX_COL; j++) {
-            output << tauler.getTauler(i, j) << " ";
-        }
-        output << endl;
-    }
-    return output;
-}*/
-
-
-void Tauler::mostraTauler() const {
-    for (int i = 0; i < MAX_FILA; ++i) {
-        for (int j = 0; j < MAX_COL; ++j) {
-            std::cout << m_tauler[i][j];
-        }
-        std::cout << '\n';
-    }
+    }*/
 }

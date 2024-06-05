@@ -37,9 +37,31 @@ typedef enum
     FIGURA_J,
     FIGURA_Z,
     FIGURA_S
-} TipusFigura;
+} TipusFigura; 
 
-// Tamany de la pantalla gràfica
+typedef enum
+{
+    MODE_NORMAL = 0,
+    MODE_TEST
+} Mode;
+
+typedef enum
+{
+    MOVIMENT_ESQUERRA,
+    MOVIMENT_DRETA,
+    MOVIMENT_GIR_HORARI,
+    MOVIMENT_GIR_ANTI_HORARI,
+    MOVIMENT_BAIXA,
+    MOVIMENT_BAIXA_FINAL,
+} TipusMoviment;
+
+const int MOV_LEFT = -1;
+const int MOV_RIGHT = 1;
+
+//velocitat depenenet del nivel
+const int VELOCITAT_NIVEL_1 = 1;
+
+// Tamany de la pantalla grï¿½fica
 const int SCREEN_SIZE_X = 600;
 const int SCREEN_SIZE_Y = 700;
 
@@ -50,8 +72,22 @@ const int MIDA_QUADRAT = 26;
 const int N_FILES_TAULER = 21;
 const int N_COL_TAULER = 11;
 
-// Posició del tauler a la pantalla
+// Posiciï¿½ del tauler a la pantalla
 const int POS_X_TAULER = 120;
 const int POS_Y_TAULER = 100;
+const int POS_X_PUNTS = 120;
+const int POS_Y_PUNTS = 50;
+const int POS_X_NIVEL = 300;
+const int POS_Y_NIVEL = 50;
+const int POS_Y_FI = 300;
 
+
+const int CANVI_NIVELL = 150;
+const int CANVI_VELOCITAT = 0.8;
+
+const int FIGURA_COLOCADA = 10;
+const int ELIMINA_DOS = 50;
+const int ELIMINA_TRES = 75;
+const int ELIMINA_QUATRE = 100;
+const int FILA = 100;
 #endif

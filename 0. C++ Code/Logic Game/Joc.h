@@ -4,6 +4,7 @@
 #include "Tauler.h"
 #include "Figura.h"
 #include "GraphicManager.h"
+#include "InfoJoc.h"
 
 class Joc {
 public:
@@ -13,6 +14,11 @@ public:
     int baixaFigura();
     bool giraFigura(const DireccioGir direccio);
     void escriuTauler(const string& nomFitxer);
+    void dibuixa();
+    bool inicialitzaNovaFigura();
+    int baixaFiguraCompletament();
+    bool teclaMouFigura(int col);
+    int baixaFiguraAutomatic();
 private:
     Tauler m_tauler;
     Figura m_figuraActual;

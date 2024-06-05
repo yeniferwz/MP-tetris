@@ -28,7 +28,37 @@
 
 #include "./Partida.h"
 #include "./InfoJoc.h"
+#include "Joc.h"
+#include "Tetris.h"
 
+using namespace std;
+
+//procediment que mostra el menu principal
+void mostrarMenu()
+{
+    cout << endl;
+    cout << "MENU PRINCIPAL" << endl;
+    cout << "================" << endl;
+    cout << "1. Joc en mode normal" << endl;
+    cout << "2. Joc en mode test" << endl;
+    cout << "3. Mostrar puntuacions" << endl;
+    cout << "4. Sortir" << endl;
+    cout << "Tria la teva opcio: ";
+}
+
+//procediment que llegeix els fitxers necessaris per a la partida en mode test
+void llegirFitxers(string& nomInicial, string& fitxerFigures, string& fitxerMoviments)
+{
+    cout << "Nom del fitxer amb l'estat inicial del tauler: ";
+    getline(cin, nomInicial);
+    nomInicial = "./data/Games/" + nomInicial;
+    cout << "Nom del fitxer amb la sequencia de figures: ";
+    getline(cin, fitxerFigures);
+    fitxerFigures = "./data/Games/" + fitxerFigures;
+    cout << "Nom del fitxer amb la sequencia de moviments: ";
+    getline(cin, fitxerMoviments);
+    fitxerMoviments = "./data/Games/" + fitxerMoviments;
+}
 
 int main(int argc, const char* argv[])
 {
@@ -38,33 +68,41 @@ int main(int argc, const char* argv[])
 
     //Inicialitza un objecte de la classe Screen que s'utilitza per gestionar la finestra grafica
     Screen pantalla(SCREEN_SIZE_X, SCREEN_SIZE_Y);
-    //Mostrem la finestra grafica
-    pantalla.show();
+    Tetris tetris("./data/Games/puntuacions.txt");
+    bool sortir = false;
+    string nomInicial, fitxerFigures, fitxerMoviments, nomJugador;
+    int punts;
+    
+    //bucle principal del joc
+    do {
+        mostrarMenu();
+        char opcio;
+        cin >> opcio;
+        switch (opcio) {
+        case '1':
+            punts = tetris.juga(MODE_NORMAL, "", "", "", pantalla);
+            cout << "Nom Jugador: "; //Demana el nom del jugador per a guardar la puntuacio
+            cin >> nomJugador;
+            tetris.actualitzaPuntuacions(nomJugador, punts); //Actualitza la puntuacio
+            break;
+        case '2':
+            llegirFitxers(nomInicial, fitxerFigures, fitxerMoviments); //Llegeix els fitxers del test
+            punts = tetris.juga(MODE_TEST, nomInicial, fitxerFigures, fitxerMoviments, pantalla);
+            break;
+        case '3':
+            tetris.mostraPuntuacions(); //Mostra les puntuacions
+            break;
+        case '4':
+            sortir = true; //Finalitza el joc
+            break;
+        default:
+            cout << "Opcio no valida, escull una opcio del menu" << endl;
+        }
+    } while (sortir == false);
 
-    Partida game;
-
-    Uint64 NOW = SDL_GetPerformanceCounter();
-    Uint64 LAST = 0;
-    double deltaTime = 0;
-    do
-    {
-        LAST = NOW;
-        NOW = SDL_GetPerformanceCounter();
-        deltaTime = (double)((NOW - LAST) / (double)SDL_GetPerformanceFrequency());
-
-        // Captura tots els events de ratolí i teclat de l'ultim cicle
-        pantalla.processEvents();
-
-        game.actualitza(deltaTime);
-
-        // Actualitza la pantalla
-        pantalla.update();
-
-    } while (!Keyboard_GetKeyTrg(KEYBOARD_ESCAPE));
-    // Sortim del bucle si pressionem ESC
+    tetris.guardaPuntuacions("./data/Games/puntuacions.txt");
 
     //Instruccio necesaria per alliberar els recursos de la llibreria 
-    SDL_Quit();
     return 0;
 }
 

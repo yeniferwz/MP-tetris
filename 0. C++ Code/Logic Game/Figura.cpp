@@ -138,27 +138,35 @@ void Figura::girarFigura(const DireccioGir direccio) {
 }
 
 //funcio que sencarregar de moure la figura, eix X representa les columnes, eix Y les files
-void Figura::moure(int col, int fila) {
+void Figura::moure(int col, int fila) 
+{
     m_x += col;
     m_y += fila;
 }
 
-/*
-ifstream& operator>>(ifstream& input, Figura& figura)
+void Figura::dibuixaFigura() const 
 {
-    int tipus, fila, columna, gir, color;
-
-    input >> tipus >> fila >> columna >> gir >> color;
-    TipusFigura tipusFigura = static_cast<TipusFigura>(tipus);
-    figura.inicialitzaFigura(static_cast<TipusFigura>(tipusFigura), static_cast<ColorFigura>(color), columna, fila, gir);
-    return input;
+    //dibuixa la figura en el tauler
+    for (int i = 0; i < m_alcada; i++) {
+        for (int j = 0; j < m_alcada; j++) {
+            if (m_figura[i][j] != COLOR_NEGRE) {
+                switch (m_tipus) {
+                case FIGURA_O: GraphicManager::getInstance()->drawSprite(GRAFIC_QUADRAT_GROC, POS_X_TAULER + ((m_x + j) * MIDA_QUADRAT), POS_Y_TAULER + ((m_y + i - 1) * MIDA_QUADRAT), false); 
+                    break;
+                case FIGURA_I: GraphicManager::getInstance()->drawSprite(GRAFIC_QUADRAT_BLAUCEL, POS_X_TAULER + ((m_x + j) * MIDA_QUADRAT), POS_Y_TAULER + ((m_y + i - 1) * MIDA_QUADRAT), false); 
+                    break;
+                case FIGURA_T: GraphicManager::getInstance()->drawSprite(GRAFIC_QUADRAT_MAGENTA, POS_X_TAULER + ((m_x + j) * MIDA_QUADRAT), POS_Y_TAULER + ((m_y + i - 1) * MIDA_QUADRAT), false); 
+                    break;
+                case FIGURA_L: GraphicManager::getInstance()->drawSprite(GRAFIC_QUADRAT_TARONJA, POS_X_TAULER + ((m_x + j) * MIDA_QUADRAT), POS_Y_TAULER + ((m_y + i - 1) * MIDA_QUADRAT), false); 
+                    break;
+                case FIGURA_J: GraphicManager::getInstance()->drawSprite(GRAFIC_QUADRAT_BLAUFOSC, POS_X_TAULER + ((m_x + j) * MIDA_QUADRAT), POS_Y_TAULER + ((m_y + i - 1) * MIDA_QUADRAT), false); 
+                    break;
+                case FIGURA_Z: GraphicManager::getInstance()->drawSprite(GRAFIC_QUADRAT_VERMELL, POS_X_TAULER + ((m_x + j) * MIDA_QUADRAT), POS_Y_TAULER + ((m_y + i - 1) * MIDA_QUADRAT), false); 
+                    break;
+                case FIGURA_S: GraphicManager::getInstance()->drawSprite(GRAFIC_QUADRAT_VERD, POS_X_TAULER + ((m_x + j) * MIDA_QUADRAT), POS_Y_TAULER + ((m_y + i - 1) * MIDA_QUADRAT), false); 
+                    break;
+                }
+            }
+        }
+    }
 }
-*/
-
-/*
-ostream& operator<<(ostream& os, const Figura& figura)
-{
-    os << "Tipus: " << figura.getTipus() << " color: " << figura.getColorFigura() << " x: " << figura.getX() << " y: " << figura.getY() << endl;
-    os << "gir: " << figura.getGir() << endl;
-    return os;
-}*/

@@ -4,10 +4,11 @@
 #include "Figura.h"
 #include <fstream>
 #include <iostream>
+#include "InfoJoc.h"
 using namespace std;
 
-const int MAX_FILA = 8;
-const int MAX_COL = 8;
+const int MAX_FILA = 22;
+const int MAX_COL = 11;
 
 class Tauler {
 public:
@@ -18,13 +19,9 @@ public:
     bool esGirValid(const Figura& figura, DireccioGir dir) const;
     void fixaFigura(const Figura& figura);
     int eliminaFilesCompletes();
-    void mostraTauler() const; //mostrar el tablero en consola
-
+    void dibuixaTauler() const;
+    bool movimentValidGrafica(const Figura& figura, int colMoure, int filaMoure) const;
 private:
     ColorFigura m_tauler[MAX_FILA][MAX_COL]; // Representacio del tablero 
 };
-
-//ifstream& operator>>(ifstream& input, Tauler& tauler);
-//ofstream& operator<<(ofstream& output, const Tauler tauler);
-
 #endif
